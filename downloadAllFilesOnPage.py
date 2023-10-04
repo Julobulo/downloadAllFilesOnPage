@@ -35,15 +35,22 @@ def downloadMP3(basisURL, lastURL, folderToDownload):
         return "exists"
     urlToRequest = basisURL + lastURL
     try:
-        r = requests.get(urlToRequest)
+        r = requests.get(urlToRequest, stream=True)
     except: # requests.exceptions.ChunkedEncodingError
         print("fuck {} not working".format(nameOfFile))
         return
     futureName = folderToDownload + "\\" + str(nameOfFile)
+    
+    from clint.textui import progress
     with open(futureName, 'wb') as f:
-        for chunk in r.iter_content(chunk_size=1024): 
-            if chunk: # filter out keep-alive new chunks
+        total_length = int(r.headers.get('content-length'))
+        for chunk in progress.bar(r.iter_content(chunk_size=1024), expected_size=(total_length/1024) + 1): 
+            if chunk:
                 f.write(chunk)
+                f.flush()
+        # for chunk in r.iter_content(chunk_size=1024): 
+        #     if chunk: # filter out keep-alive new chunks
+        #         f.write(chunk)
     return None
 
 
@@ -120,7 +127,7 @@ if "--help" in sys.argv:
     print("To do that, just type \"destfolder=\".\\MyDestinationFolder\"\"\n")
     print("If the folder doesn't already exist, it is going to be created.")
     print("\nA concrete example of this script could be:")
-    print("python {}.py url=https://theUrlYouWant.com ext=.mp3,.wav destfolder=\".\\MyDestinationFolder\"\n".format(pythonFileName))
+    print("python {} url=\"https://theUrlYouWant.com\" ext=.mp3,.wav destfolder=\".\\MyDestinationFolder\"\n".format(pythonFileName))
     print("\nNOTE: This python script DOES NOT download anything else than what is in the specified url! Use this script legally please!\n")
     exit()
 
@@ -132,7 +139,7 @@ if sys.argv == None:
 # organize the specified arguments
 for argument in sys.argv:
     # if the argument name is the name of the python file then skip it
-    if argument == pythonFileName:
+    if argument == pythonFileName or pythonFileName in argument:
         continue
     # split the argument give at the "="
     argumentList = argument.split("=")
@@ -164,4 +171,6 @@ print("The destination folder for the downloaded files is: {}.\n".format(destina
 print("\nStarting download...")
 
 tupleOfProgram = downloadAllMP3onaPage(urlToDownload, destinationFolder, listOfext)
-print("The program downloaded {} files\nThis Program made {} requests, in {} seconds".format(tupleOfProgram[0], tupleOfProgram[1], tupleOfProgram[2]))
+print("The program downloaded {} files\nThis Program made {} requests, in {} seconds.",
+      "\nDon't forget that the count did not include the requests made to the files."
+      .format(tupleOfProgram[0], tupleOfProgram[1], tupleOfProgram[2]))
