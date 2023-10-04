@@ -35,7 +35,7 @@ def downloadMP3(basisURL, lastURL, folderToDownload):
         return "exists"
     urlToRequest = basisURL + lastURL
     try:
-        r = requests.get(urlToRequest, stream=True)
+        r = requests.get(urlToRequest)
     except: # requests.exceptions.ChunkedEncodingError
         print("fuck {} not working".format(nameOfFile))
         return
@@ -48,9 +48,6 @@ def downloadMP3(basisURL, lastURL, folderToDownload):
             if chunk:
                 f.write(chunk)
                 f.flush()
-        # for chunk in r.iter_content(chunk_size=1024): 
-        #     if chunk: # filter out keep-alive new chunks
-        #         f.write(chunk)
     return None
 
 
@@ -127,7 +124,7 @@ if "--help" in sys.argv:
     print("To do that, just type \"destfolder=\".\\MyDestinationFolder\"\"\n")
     print("If the folder doesn't already exist, it is going to be created.")
     print("\nA concrete example of this script could be:")
-    print("python {} url=\"https://theUrlYouWant.com\" ext=.mp3,.wav destfolder=\".\\MyDestinationFolder\"\n".format(pythonFileName))
+    print("python {}.py url=https://theUrlYouWant.com ext=.mp3,.wav destfolder=\".\\MyDestinationFolder\"\n".format(pythonFileName))
     print("\nNOTE: This python script DOES NOT download anything else than what is in the specified url! Use this script legally please!\n")
     exit()
 
@@ -139,7 +136,7 @@ if sys.argv == None:
 # organize the specified arguments
 for argument in sys.argv:
     # if the argument name is the name of the python file then skip it
-    if argument == pythonFileName or pythonFileName in argument:
+    if argument == pythonFileName:
         continue
     # split the argument give at the "="
     argumentList = argument.split("=")
