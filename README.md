@@ -13,5 +13,9 @@ To do that, just type \"destfolder=\".\\MyDestinationFolder\"\"
 If the folder doesn't already exist, it is going to be created.
 
 A concrete example of this script could be:
-"python {}.py url=https://theUrlYouWant.com ext=.mp3,.wav destfolder=\".\\MyDestinationFolder\"\n".format(pythonFileName)
+python downloadAllFilesOnPage.py url=https://theUrlYouWant.com ext=.mp3,.wav destfolder=".\\MyDestinationFolder"
+
 NOTE: This python script DOES NOT download anything else than what is in the specified url! Use this script legally please!
+
+PS: This script is not designedd to work against really developped ant-scrapping techniques, so if it doesn't work and that the error code is 429 (print(request.status_code)), it's just that the website has blocked the script...
+Enjoy it!
