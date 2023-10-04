@@ -136,7 +136,7 @@ if sys.argv == None:
 # organize the specified arguments
 for argument in sys.argv:
     # if the argument name is the name of the python file then skip it
-    if argument == pythonFileName:
+    if argument == pythonFileName or pythonFileName in argument:
         continue
     # split the argument give at the "="
     argumentList = argument.split("=")
