@@ -1,21 +1,40 @@
+# DownloadAllFilesOnPage by @Julobulo
 
--To use this tool by @Julobulo, you must first specify the url you want to get files from.
-To do that, just type \"url=https://thewebsitethatisgonnagetscraped.com\"
+This tool allows you to download specific file types from a specified URL. Follow the steps below to use it effectively.
 
+## Usage
 
--Then, you must specify the extensions you want to download.
-To do that, just type "ext=.mp3,.mp4,.exe"
+### Step 1: Specify the URL
 
+First, set the URL you want to scrape files from by typing:
+```
+url=https://thewebsitethatisgonnagetscraped.com
+```
 
--Lastly, you need to indicate in which folder the downloaded are going to go.
-To do that, just type \"destfolder=\".\\MyDestinationFolder\"\"
+### Step 2: Specify the File Extensions
 
-If the folder doesn't already exist, it is going to be created.
+Next, indicate the file extensions you want to download. For example:
+```
+ext=.mp3,.mp4,.exe
+```
 
-A concrete example of this script could be:
-python downloadAllFilesOnPage.py url=https://theUrlYouWant.com ext=.mp3,.wav destfolder=".\\MyDestinationFolder"
+### Step 3: Specify the Destination Folder
 
-NOTE: This python script DOES NOT download anything else than what is in the specified url! Use this script legally please!
+Finally, specify the destination folder where the downloaded files will be saved. If the folder does not exist, it will be created automatically. Use the following format:
+```
+destfolder=".\MyDestinationFolder"
+```
 
-PS: This script is not designedd to work against really developped ant-scrapping techniques, so if it doesn't work and that the error code is 429 (print(request.status_code)), it's just that the website has blocked the script...
-Enjoy it!
+### Example
+
+A concrete example of running this script would be:
+```
+python downloadAllFilesOnPage.py url=https://theUrlYouWant.com ext=.mp3,.wav destfolder=".\MyDestinationFolder"
+```
+
+## Important Notes
+
+- **Legal Use Only:** This script is designed to download only the specified file types from the provided URL. Ensure that you use this tool legally.
+- **Anti-Scraping Measures:** This script is not designed to bypass advanced anti-scraping techniques. If you encounter a 429 error code (`print(request.status_code)`), it means the website has blocked the script. 
+
+Enjoy using the tool responsibly!
