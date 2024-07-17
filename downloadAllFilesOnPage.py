@@ -172,6 +172,6 @@ print("The destination folder for the downloaded files is: {}.\n".format(destina
 print("\nStarting download...")
 
 tupleOfProgram = downloadAllFilesOnPage(urlToDownload, destinationFolder, listOfext)
-print("The program downloaded {} files\nThis Program made {} requests, in {} seconds.",
-      "\nDon't forget that the count did not include the requests made to the files."
-      .format(tupleOfProgram[0], tupleOfProgram[1], tupleOfProgram[2]))
+print("The program downloaded {} files\nThis Program made {} requests, in {} seconds."
+      .format(tupleOfProgram[0], tupleOfProgram[1], tupleOfProgram[2]),
+      "\nDon't forget that the count did not include the requests made to the files.")
