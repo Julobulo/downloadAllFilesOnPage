@@ -26,12 +26,12 @@ def getFileType(url: str, listOfTypes: list):
     except:
         return "broken link"
 
-def downloadMP3(basisURL, lastURL, folderToDownload):
+def downloadFile(basisURL, lastURL, folderToDownload):
     # import os
     nameOfFile = lastURL.replace('%20', ' ')
     nameOfFile = nameOfFile.replace('%5b', '[')
     nameOfFile = nameOfFile.replace('%5d', ']')
-    if os.path.exists(str(folderToDownload + "\\" +nameOfFile)):
+    if os.path.exists(os.path.join(folderToDownload, nameOfFile)):
         return "exists"
     urlToRequest = basisURL + lastURL
     try:
@@ -39,7 +39,11 @@ def downloadMP3(basisURL, lastURL, folderToDownload):
     except: # requests.exceptions.ChunkedEncodingError
         print("fuck {} not working".format(nameOfFile))
         return
-    futureName = folderToDownload + "\\" + str(nameOfFile)
+    futureName = os.path.join(folderToDownload, str(nameOfFile))
+    
+    if not os.path.isdir(os.path.split(futureName)[0]):
+        print(f'made directory {os.path.split(futureName)[0]}')
+        os.makedirs (os.path.split(futureName)[0])
     
     from clint.textui import progress
     with open(futureName, 'wb') as f:
@@ -51,7 +55,7 @@ def downloadMP3(basisURL, lastURL, folderToDownload):
     return None
 
 
-def downloadAllMP3onaPage(linkToPage, destinationPath, listOfExtensions):
+def downloadAllFilesOnPage(linkToPage, destinationPath, listOfExtensions):
     from time import time
     # set up a timer
     startTime = time()
@@ -93,7 +97,7 @@ def downloadAllMP3onaPage(linkToPage, destinationPath, listOfExtensions):
             #     if link['href'].endswith(extension):
                 print("Donwloading this file: {}...".format(link['href']))
                 # if the file already exists...
-                if not downloadMP3(linkToPage, link['href'], destinationPath) == "exists":
+                if not downloadFile(linkToPage, link['href'], destinationPath) == "exists":
                     print("This file downloaded!: {}\n".format(link['href']))
                     numberOfDownloadedFiles += 1
                 else:
@@ -167,7 +171,7 @@ print("This programs will download all the files with the following file extensi
 print("The destination folder for the downloaded files is: {}.\n".format(destinationFolder))
 print("\nStarting download...")
 
-tupleOfProgram = downloadAllMP3onaPage(urlToDownload, destinationFolder, listOfext)
+tupleOfProgram = downloadAllFilesOnPage(urlToDownload, destinationFolder, listOfext)
 print("The program downloaded {} files\nThis Program made {} requests, in {} seconds.",
       "\nDon't forget that the count did not include the requests made to the files."
       .format(tupleOfProgram[0], tupleOfProgram[1], tupleOfProgram[2]))
