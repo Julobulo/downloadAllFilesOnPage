@@ -89,15 +89,16 @@ def downloadAllFilesOnPage(linkToPage, destinationPath, listOfExtensions):
     
 
     soup = BeautifulSoup(webPage.text, 'html.parser')
+    print('starting to search for all links')
     for link in soup.findAll('a'):
         try:
             # download the file if it has any of the extensions in list
-            if getFileType(str(linkToPage + link['href']), listOfExtensions):
+            if getFileType(str(os.path.dirname(linkToPage) + '/' + link['href']), listOfExtensions):
             # for extension in listOfExtensions:
             #     if link['href'].endswith(extension):
                 print("Donwloading this file: {}...".format(link['href']))
                 # if the file already exists...
-                if not downloadFile(linkToPage, link['href'], destinationPath) == "exists":
+                if not downloadFile(os.path.dirname(linkToPage), link['href'], destinationPath) == "exists":
                     print("This file downloaded!: {}\n".format(link['href']))
                     numberOfDownloadedFiles += 1
                 else:
@@ -171,7 +172,7 @@ print("This programs will download all the files with the following file extensi
 print("The destination folder for the downloaded files is: {}.\n".format(destinationFolder))
 print("\nStarting download...")
 
-tupleOfProgram = downloadAllFilesOnPage(urlToDownload, destinationFolder, listOfext)
+tupleOfProgram = downloadAllFilesOnPage(linkToPage=urlToDownload, destinationPath=destinationFolder, listOfExtensions=listOfext)
 print("The program downloaded {} files\nThis Program made {} requests, in {} seconds."
       .format(tupleOfProgram[0], tupleOfProgram[1], tupleOfProgram[2]),
       "\nDon't forget that the count did not include the requests made to the files.")
